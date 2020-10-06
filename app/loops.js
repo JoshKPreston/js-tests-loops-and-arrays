@@ -6,7 +6,14 @@
 // 1*2*3*4 = 24
 
 function factorials(num) {
+  let numArray = new Array()
+  for (let i = 1; i <= num; i++) {
+    numArray.push(i)
+  }
 
+  let total = numArray[0]
+  numArray.forEach(elem => {total *= elem})
+  return total
 }
 
 // ------------------------------------------
@@ -17,7 +24,28 @@ function factorials(num) {
 // output: 20
 
 function rangeTotal(n1, n2) {
+  let min = null
+  let max = null
 
+  if (n1 < n2) {
+    min = n1
+    max = n2
+  } else {
+    min = n2
+    max = n1
+  }
+
+  let numArray = new Array()
+  for (let i = min; i <= max; i++) {
+    numArray.push(i)
+  }
+
+  let total = null
+  for (let i = 0; i < numArray.length; i++) {
+    const elem = numArray[i];
+    total += elem
+  }
+  return total
 }
 
 // ------------------------------------------
@@ -30,5 +58,15 @@ function rangeTotal(n1, n2) {
 // output: 2
 
 function rangeDivisor(start, end, divisor) {
-
+  let numArray = new Array()
+  for (let i = start; i <= end; i++) {
+    numArray.push(i)    
+  }
+  let divisibleNums = 0
+  numArray.forEach(elem => {
+    if (elem % divisor == 0) {
+      divisibleNums++
+    }
+  });
+  return divisibleNums
 }
