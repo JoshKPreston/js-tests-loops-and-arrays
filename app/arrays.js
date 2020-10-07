@@ -4,6 +4,9 @@
 // output: ['is', 'a', 'split', 'sentence.', 'This']
 
 function rearranger(arr) {
+    let endOfArray = arr.shift()
+    arr.push(endOfArray)
+    return arr
 }
 
 
@@ -14,8 +17,34 @@ function rearranger(arr) {
 // Example:
 // input: [6, 4, 8, 33, 42, 10]
 // output: 42
+// [10, 12, 3, 2, 42]
+// [23, 12, 4, 6, 23, 23, 23, 13]
 
 function largestNum(arr) {
+    let highNum = 0
+    let numObj = {}
+    let numOfOccurrences = null
+
+    for (const key in arr) {
+        const elem = arr[key]
+        if (elem > highNum) {
+            highNum = elem
+        }
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+        const elem = arr[i];
+        if (highNum === elem) {
+            numOfOccurrences++
+        }
+    }
+
+    if (numOfOccurrences > 1) {
+        numObj[highNum] = numOfOccurrences
+        return numObj
+    } else {
+        return highNum
+    }
 }
 
 
@@ -28,6 +57,12 @@ function largestNum(arr) {
 // output: [16, 8, 4, 28]
 
 function elemsTimesLength(arr) {
+    numArray = new Array()
+    for (const key in arr) {
+        const elem = arr[key]
+        numArray.push(elem * arr.length)
+    }
+    return numArray
 }
 
 
@@ -39,9 +74,28 @@ function elemsTimesLength(arr) {
 // input:  [[['legume'], 3, []], 2, ['tree', [{}, [5]]]]
 // output: ['legume', 3, 2, 'tree', 5]
 // Primitive data types - https://developer.mozilla.org/en-US/docs/Glossary/Primitive
+// [[['legume'], 3, []], 2, ['tree', [{}, [5]]]]
 
 function arrayFlattener(arr) {
 
+    let newArr = []
+
+    for (const a of arr) {
+        if (Array.isArray(a)) {
+            newArr.push(...arrayFlattener(a));
+        } else {
+            newArr.push(a)
+        }
+    }
+
+    newArr.forEach( elem => {
+        let i = newArr.indexOf(elem)
+        if ( typeof elem === 'object') {
+            newArr.splice(i, 1)
+        }
+    })
+    
+    return newArr;
 }
 
 
@@ -75,8 +129,15 @@ let flights = [{
 
 
 function flightCost(destination, firstClass) {
-    //***hint: use the find method***
-
+    destination = destination.toUpperCase()
+    let flight = flights.find( f => {
+        return f.to === destination
+    })
+    if (firstClass) { 
+        return flight.prices.firstClass
+    } else {
+        return flight.prices.standard
+    }
 }
 
 
@@ -97,7 +158,20 @@ let staff = [{ id: 1, name: 'Jon' }, { id: 2, name: 'Yuli' }, { id: 21, name: 'P
 { id: 881, name: 'Paul' }, { id: 0, name: 'Jon' }, { id: 999, name: 'Timma' }]
 
 function findById(id) {
-
+    let matchFound = null
+    for (const s of staff) {
+        if (s.id === id) {
+            matchFound = s
+            break
+        } else {
+            continue
+        }
+    }
+    if (matchFound) {
+        return matchFound
+    } else {
+        return {error: 'No user with that id.'}
+    }
 }
 
 
@@ -124,4 +198,8 @@ let theBand = {
 }
 
 function bandMemberDetails(name) {
+    let bandMember = theBand.members.find(b => {
+        return b.name.includes(name)
+    })
+    return `${bandMember.name} is in the band and plays the ${bandMember.instrument}`
 }
